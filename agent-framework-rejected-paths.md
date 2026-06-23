@@ -1,0 +1,12 @@
+# Rejected / low-value paths
+
+- **Python `FileCheckpointStorage` path traversal**: source = `checkpoint_id`; sink = `open()`/`unlink()` under checkpoint directory; blocker = `_validate_file_path()` resolves `storage_path / f"{checkpoint_id}.json"` and requires the result to stay under `storage_path`.
+- **Python default file checkpoint pickle RCE**: source = file-backed checkpoint JSON; sink = unpickle; blocker = constructor sets `_allowed_types` to `frozenset(...)`, so `load()` passes a non-`None` allowlist and uses `_RestrictedUnpickler` by default.
+- **Python checkpoint graph mismatch restore**: source = checkpoint from a different workflow graph; sink = runtime state restore; blocker = workflow stores a canonical graph fingerprint and restore validates `graph_signature_hash` before importing state.
+- **Python MCP runtime kwarg injection**: source = model/tool-call kwargs; sink = MCP `tools/call`; blocker = `_prepare_call_kwargs` filters kwargs to declared schema parameter names plus construction-time extras and strips framework runtime objects by default.
+- **Python MCP empty allowlist handling**: source = `allowed_tools=[]`; sink = remote tool exposure; blocker = documented behavior treats empty collection as exposing no tools.
+- **Python file access/memory path traversal**: source = tool path arguments; sink = disk-backed read/write/delete/search; blocker = `FileSystemAgentFileStore` is documented to normalize relative paths, enforce root containment, and reject symlink/reparse-point segments.
+- **.NET workflow checkpoint file name traversal**: source = session/checkpoint IDs; sink = checkpoint JSON path; blocker = `FileSystemJsonCheckpointStore.GetFileNameForCheckpoint()` URL-encodes the combined name and escapes dots before combining with the store directory.
+- **.NET hosted session store traversal**: source = `agent.Name`/`conversationId`; sink = `File.ReadAllBytesAsync` and `File.Move`; blocker = `Sanitize()` percent-encodes invalid filename characters and special all-dot segments before path composition.
+- **.NET JSON checkpoint deserialization RCE**: source = JSON checkpoint/session payload; sink = `JsonSerializer.Deserialize`; blocker = System.Text.Json type info/options are used; no BinaryFormatter, TypeNameHandling, or arbitrary `Type.GetType` instantiation was observed in the checked paths.
+- **Examples/demo-only HTTP/file/tool issues**: source = samples; sink = assorted demo tools/connectors; blocker = user scope explicitly excludes examples as formal candidates unless they reveal a core default path.
