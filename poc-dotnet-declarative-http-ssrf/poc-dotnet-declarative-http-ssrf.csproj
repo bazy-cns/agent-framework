@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworksCore>net8.0</TargetFrameworksCore>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../dotnet/src/Microsoft.Agents.AI.Workflows.Declarative/IHttpRequestHandler.cs" Link="RealSource/IHttpRequestHandler.cs" />
+    <Compile Include="../dotnet/src/Microsoft.Agents.AI.Workflows.Declarative/DefaultHttpRequestHandler.cs" Link="RealSource/DefaultHttpRequestHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="workflow-*.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="workflow-*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

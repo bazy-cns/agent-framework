@@ -1,0 +1,10 @@
+# Harmless string-only fixture. The harness must record this value only with a fake handler.
+# Do not send this URL through a real HttpClientHandler or real network path.
+name: metadata-string-only-http-sink-poc
+actions:
+  - httpRequest:
+      method: GET
+      url: "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
+      headers:
+        X-Poc-Marker: "metadata-url-string-only"
+        Authorization: "Bearer fake-token-do-not-send"
