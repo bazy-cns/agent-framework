@@ -1,0 +1,12 @@
+# Harmless declarative HTTP fixture for the no-network PoC.
+# The URL is loopback-only and must never be sent through a real network handler.
+name: localhost-http-sink-poc
+actions:
+  - httpRequest:
+      method: GET
+      url: "http://127.0.0.1:65535/declarative-poc"
+      queryParameters:
+        from: "workflow"
+      headers:
+        X-Poc-Marker: "declarative-header-reached-sink"
+        Authorization: "Bearer fake-token-do-not-send"

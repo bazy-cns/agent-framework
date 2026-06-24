@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworksCore>net8.0</TargetFrameworksCore>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="workflow-*.yaml" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="workflow-*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
